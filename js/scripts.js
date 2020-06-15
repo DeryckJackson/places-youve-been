@@ -1,6 +1,7 @@
 //business
 function Places() {
   this.places = [];
+  this.id = 0
 }
 
 Places.prototype.addPlace = function(place) {
@@ -12,10 +13,15 @@ function Place(name, landmarks, time, notes) {
   this.landmarks = landmarks;
   this.time = time;
   this.notes = notes;
+  this.id++;
 }
 
 
 //user
+function display() {
+  $(".hide").toggle();
+}
+
 $(document).ready(function() {
   let visited = new Places();
   $("#place").submit(function(event) {
@@ -30,20 +36,17 @@ $(document).ready(function() {
 
     $("#output").empty();
 
-    $.each(visited.places, function(index, value) {
-      $("#output").append(`<ul>${this.name}
-      <li class="hidden">Landmarks: ${this.landmarks}</li>
-      <li class="hidden">Time of year visited: ${this.time}</li>
-      <li class="hidden">Notes: ${this.notes}</li>
-      </ul>`).on("click", "ul", function() {
-        $("li.hidden").toggle();
+    visited.places.forEach(function(element) {
+      $("#output").append(`<ul onclick = "display()">${element.name}
+      <li class="hide ${element.name}">${element.landmarks}</li>
+      <li class="hide ${element.name}">${element.time}</li>
+      <li class="hide ${element.name}">${element.notes}</li>
+      </ul>`)
       })
+    
     
     // $("ul").click(function) {
     //   $(".hidden").toggle();
     // }
   });
-  });
-
-  
 });
