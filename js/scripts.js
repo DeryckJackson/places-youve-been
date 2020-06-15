@@ -14,28 +14,36 @@ function Place(name, landmarks, time, notes) {
   this.notes = notes;
 }
 
-let visited = new Places();
-
-function list(visited) {
-  let placeList = [];
-  for (let i = 0; i < visited.places.length; i++) {
-    placeList.push(visited.places[i].name);
-  }
-  return placeList;
-}
 
 //user
 $(document).ready(function() {
+  let visited = new Places();
   $("#place").submit(function(event) {
     event.preventDefault();
     let name = $("input#name").val();
     let landmarks = $("input#landmarks").val();
     let time = $("#time").val();
     let notes = $("input#notes").val();
+
     const newPlace = new Place(name, landmarks, time, notes);
     visited.addPlace(newPlace);
-    $("#output").empty();
-    $("#output").text(list(visited));
-  });
-});
 
+    $("#output").empty();
+
+    $.each(visited.places, function(index, value) {
+      $("#output").append(`<ul>${this.name}
+      <li class="hidden">Landmarks: ${this.landmarks}</li>
+      <li class="hidden">Time of year visited: ${this.time}</li>
+      <li class="hidden">Notes: ${this.notes}</li>
+      </ul>`).on("click", "ul", function() {
+        $("li.hidden").toggle();
+      })
+    
+    // $("ul").click(function) {
+    //   $(".hidden").toggle();
+    // }
+  });
+  });
+
+  
+});
